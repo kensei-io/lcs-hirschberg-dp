@@ -1,11 +1,14 @@
 """Tests de corrección para las versiones de LCS."""
 
+import random
+
 import pytest
 
 from lcs_hirschberg_dp.dp import build_table, lcs_dp
+from lcs_hirschberg_dp.recursive import lcs_recursive
 
-# Cuando tengamos las versiones A y B, solo habrá que añadirlas aquí.
-IMPLEMENTATIONS = [lcs_dp]
+# Cuando tengamos la versión B, solo habrá que añadirla aquí.
+IMPLEMENTATIONS = [lcs_dp, lcs_recursive]
 
 
 def is_subsequence(sub: str, s: str) -> bool:
@@ -46,3 +49,17 @@ def test_table_small_example():
         [0, 1, 1],
         [0, 1, 2],
     ]
+
+
+@pytest.mark.parametrize("lcs", IMPLEMENTATIONS)
+def test_random_pairs_match_reference(lcs):
+    # Compara cada versión con la DP (referencia) en 200 parejas aleatorias.
+    # La semilla fija hace que las parejas sean siempre las mismas.
+    rng = random.Random(42)
+    for _ in range(200):
+        a = "".join(rng.choices("ACGT", k=rng.randint(0, 9)))
+        b = "".join(rng.choices("ACGT", k=rng.randint(0, 9)))
+        result = lcs(a, b)
+        assert len(result) == len(lcs_dp(a, b))
+        assert is_subsequence(result, a)
+        assert is_subsequence(result, b)
