@@ -11,3 +11,6 @@ wheels/
 
 # Resultados de la ejecución rápida (make quick)
 results/quick/
+
+# Archivos internos de macOS
+.DS_Store

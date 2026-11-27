@@ -1,7 +1,7 @@
 [project]
 name = "lcs-hirschberg-dp"
 version = "0.1.0"
-description = "Add your description here"
+description = "LCS: versiones recursiva, Hirschberg y programación dinámica, con comparación experimental"
 readme = "README.md"
 authors = [
     { name = "Miguel Sanchez", email = "361606682+kensei-io@users.noreply.github.com" }
