@@ -5,10 +5,10 @@ import random
 import pytest
 
 from lcs_hirschberg_dp.dp import build_table, lcs_dp
+from lcs_hirschberg_dp.hirschberg import last_row, lcs_hirschberg
 from lcs_hirschberg_dp.recursive import lcs_recursive
 
-# Cuando tengamos la versión B, solo habrá que añadirla aquí.
-IMPLEMENTATIONS = [lcs_dp, lcs_recursive]
+IMPLEMENTATIONS = [lcs_dp, lcs_recursive, lcs_hirschberg]
 
 
 def is_subsequence(sub: str, s: str) -> bool:
@@ -60,6 +60,25 @@ def test_random_pairs_match_reference(lcs):
         a = "".join(rng.choices("ACGT", k=rng.randint(0, 9)))
         b = "".join(rng.choices("ACGT", k=rng.randint(0, 9)))
         result = lcs(a, b)
+        assert len(result) == len(lcs_dp(a, b))
+        assert is_subsequence(result, a)
+        assert is_subsequence(result, b)
+
+
+def test_last_row_matches_full_table():
+    # La última fila calculada con espacio lineal debe coincidir con la
+    # última fila de la tabla completa de la versión C.
+    a, b = "ABCBDAB", "BDCABA"
+    assert last_row(a, range(len(a)), b, range(len(b))) == build_table(a, b)[-1]
+
+
+def test_hirschberg_long_strings():
+    # Cadenas largas (fuera del alcance de la versión A): solo DP y Hirschberg.
+    rng = random.Random(7)
+    for size in (50, 200, 500):
+        a = "".join(rng.choices("ACGT", k=size))
+        b = "".join(rng.choices("ACGT", k=size + 37))
+        result = lcs_hirschberg(a, b)
         assert len(result) == len(lcs_dp(a, b))
         assert is_subsequence(result, a)
         assert is_subsequence(result, b)
