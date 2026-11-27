@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from lcs-hirschberg-dp!")
+"""LCS de dos cadenas: versiones recursiva, Hirschberg y programación dinámica."""

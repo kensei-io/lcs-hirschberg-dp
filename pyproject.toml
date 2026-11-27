@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-lcs-hirschberg-dp = "lcs_hirschberg_dp:main"
+lcs-hirschberg-dp = "lcs_hirschberg_dp.experiments:main"
 
 [build-system]
 requires = ["uv_build>=0.13.10,<0.14.0"]
